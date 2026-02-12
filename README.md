@@ -19,7 +19,7 @@ Abaixo, a lista de serviços prontos para uso neste repositório:
 
 | Categoria | Serviço | Tipo | Descrição |
 | :--- | :--- | :--- | :--- |
-| **Em breve** | Code-Server | Single | IDE VS Code via Browser. |
+| **Dev Tools** | Code-Server | Single | IDE VS Code via Browser. |
 
 
 
