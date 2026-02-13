@@ -13,24 +13,31 @@ RUN apt update && apt install -y \
     python3-venv \
     && rm -rf /var/lib/apt/lists/*
 
-# Cria um usuário "ubuntu"
+# Cria um usuário "ubuntu" e garante permissões na pasta de trabalho
 RUN useradd -m -s /bin/bash ubuntu && \
     echo "ubuntu ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
 # Troca para o novo usuário
 USER ubuntu    
 
-# Define o diretório de trabalho para os projetos
-WORKDIR /home/ubuntu/projects
+# Define o diretório de trabalho
+WORKDIR /home/ubuntu/notebooks
 
-# Instalar o Code-Server (VS Code Server)
+# Instalar o Code-Server
 RUN curl -fsSL https://code-server.dev/install.sh | sh
 
-# Copia o arquivo de configuração para o local adequado
+# Instala o kernel do Jupyter para o Python
+RUN pip3 install --no-cache-dir ipykernel
+
+# Instala a extensão do Jupyter e Python diretamente no code-server
+RUN code-server --install-extension ms-python.python
+RUN code-server --install-extension ms-toolsai.jupyter
+
+# Copia o arquivo de configuração
 COPY --chown=ubuntu:ubuntu config.yaml /home/ubuntu/.config/code-server/config.yaml
 
-# Expõe a porta padrão do code-server
+# Expõe a porta
 EXPOSE 8080
 
-# Comando para iniciar o code-server sem usuário extra
-CMD ["code-server", "--bind-addr", "0.0.0.0:8080"]
+# Comando para iniciar
+CMD ["code-server", "--bind-addr", "0.0.0.0:8080", "."]
