@@ -21,9 +21,10 @@ Para rodar o Code-Server com persistência de dados (garantindo que seus arquivo
 ```bash
 docker run -d \
   --name code-server \
+  --restart always \
   -p 4277:4277 \
-  -v "$(pwd)/projects:/home/ubuntu/projects" \
-  code-server-local
+  -v "/home/ubuntu/projects:/home/ubuntu/projects" \
+  code-server
   ```
 
 ## 🔗 Acesso
